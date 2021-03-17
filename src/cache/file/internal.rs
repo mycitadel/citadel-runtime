@@ -1,4 +1,4 @@
-// MyCitadel: node, wallet library & command-line tool
+// Citadel: Bitcoin, LN & RGB wallet runtime
 // Written in 2021 by
 //     Dr. Maxim Orlovsky <orlovsky@mycitadel.io>
 //
@@ -21,7 +21,8 @@ use microservices::FileFormat;
 use super::{Cache, ContractCache};
 use crate::cache::Error;
 use crate::model::ContractId;
-use crate::server::opts::MYCITADEL_CACHE_FILE;
+
+const CACHE_FILENAME: &'static str = "cache";
 
 #[derive(
     Clone,
@@ -44,7 +45,7 @@ pub struct FileConfig {
 impl FileConfig {
     pub fn filename(&self) -> PathBuf {
         let mut filename = PathBuf::from(self.location.clone());
-        filename.push(MYCITADEL_CACHE_FILE);
+        filename.push(CACHE_FILENAME);
         filename.set_extension(self.format.extension());
         filename
     }

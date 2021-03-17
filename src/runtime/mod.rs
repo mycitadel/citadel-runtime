@@ -1,4 +1,4 @@
-// MyCitadel: node, wallet library & command-line tool
+// Citadel: Bitcoin, LN & RGB wallet runtime
 // Written in 2021 by
 //     Dr. Maxim Orlovsky <orlovsky@mycitadel.io>
 //
@@ -11,14 +11,10 @@
 // along with this software.
 // If not, see <https://www.gnu.org/licenses/agpl-3.0-standalone.html>.
 
-mod command;
-mod opts;
-mod output;
-pub(self) mod util;
+//! Main RPC server runtime (operating as daemon or thread)
 
-pub use opts::{
-    AddressCommand, AssetCommand, Command, DescriptorOpts, Formatting,
-    InvoiceCommand, Opts, PsbtFormat, WalletCommand, WalletCreateCommand,
-    WalletOpts,
-};
-pub use output::OutputFormat;
+mod config;
+mod runtime;
+
+pub use config::Config;
+pub use runtime::{run, Runtime};

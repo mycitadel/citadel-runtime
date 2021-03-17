@@ -1,4 +1,4 @@
-# MyCitadel Node
+# Citadel: Bitcoin, LN & RGB wallet runtime and client library
 
 Node operating MyCitadel wallet (can be embedded, self- or cloud-hosted) 
 providing synchronization between bitcoin blockchain, lightning node (LNP Node)

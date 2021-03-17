@@ -1,4 +1,4 @@
-// MyCitadel: node, wallet library & command-line tool
+// Citadel: Bitcoin, LN & RGB wallet runtime
 // Written in 2021 by
 //     Dr. Maxim Orlovsky <orlovsky@mycitadel.io>
 //
@@ -14,10 +14,10 @@
 use std::io;
 
 use amplify::IoError;
-#[cfg(any(feature = "node", feature = "client"))]
+#[cfg(any(feature = "runtime", feature = "client"))]
 use internet2::TypeId;
 use internet2::{presentation, transport};
-#[cfg(any(feature = "node", feature = "client"))]
+#[cfg(any(feature = "runtime", feature = "client"))]
 use microservices::rpc;
 
 use crate::{cache, storage};
@@ -31,7 +31,7 @@ pub enum Error {
     Io(IoError),
 
     /// RPC error - {0}
-    #[cfg(any(feature = "node", feature = "client"))]
+    #[cfg(any(feature = "runtime", feature = "client"))]
     #[from]
     Rpc(rpc::Error),
 
@@ -40,16 +40,16 @@ pub enum Error {
     Networking(presentation::Error),
 
     /// transport-level interface error - {0}
-    #[cfg(any(feature = "node", feature = "client"))]
+    #[cfg(any(feature = "runtime", feature = "client"))]
     #[from]
     Transport(transport::Error),
 
     /// provided RPC request (type id {0}) is not supported
-    #[cfg(any(feature = "node", feature = "client"))]
+    #[cfg(any(feature = "runtime", feature = "client"))]
     NotSupported(TypeId),
 
     /// RGB node error - {0}
-    #[cfg(any(feature = "server", feature = "embedded"))]
+    #[cfg(any(feature = "runtime", feature = "embedded"))]
     #[from(rgb_node::i9n::Error)]
     RgbNode(String),
 
@@ -58,12 +58,12 @@ pub enum Error {
     Electrum,
 
     /// storage failure - {0}
-    #[cfg(any(feature = "server", feature = "embedded"))]
+    #[cfg(any(feature = "runtime", feature = "embedded"))]
     #[from]
     StorageDriver(storage::Error),
 
     /// cache failure - {0}
-    #[cfg(any(feature = "server", feature = "embedded"))]
+    #[cfg(any(feature = "runtime", feature = "embedded"))]
     #[from]
     CacheDriver(cache::Error),
 
@@ -105,7 +105,7 @@ pub enum Error {
 
 impl microservices::error::Error for Error {}
 
-#[cfg(any(feature = "node", feature = "client"))]
+#[cfg(any(feature = "runtime", feature = "client"))]
 impl From<Error> for rpc::Error {
     fn from(err: Error) -> Self {
         match err {

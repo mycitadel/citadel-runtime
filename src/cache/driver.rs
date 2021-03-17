@@ -1,4 +1,4 @@
-// MyCitadel: node, wallet library & command-line tool
+// Citadel: Bitcoin, LN & RGB wallet runtime
 // Written in 2021 by
 //     Dr. Maxim Orlovsky <orlovsky@mycitadel.io>
 //

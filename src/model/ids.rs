@@ -1,4 +1,4 @@
-// MyCitadel: node, wallet library & command-line tool
+// Citadel: Bitcoin, LN & RGB wallet runtime
 // Written in 2021 by
 //     Dr. Maxim Orlovsky <orlovsky@mycitadel.io>
 //
@@ -25,7 +25,7 @@ impl sha256t::Tag for ContractIdTag {
     #[inline]
     fn engine() -> sha256::HashEngine {
         let midstate = sha256::Midstate::from_inner(
-            **tagged_hash::Midstate::with("mycitadel:contract"),
+            **tagged_hash::Midstate::with("citadel:contract"),
         );
         sha256::HashEngine::from_midstate(midstate, 64)
     }

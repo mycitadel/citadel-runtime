@@ -1,4 +1,4 @@
-// MyCitadel: node, wallet library & command-line tool
+// Citadel: Bitcoin, LN & RGB wallet runtime
 // Written in 2021 by
 //     Dr. Maxim Orlovsky <orlovsky@mycitadel.io>
 //
@@ -16,11 +16,12 @@ use std::path::PathBuf;
 
 use internet2::zmqsocket::ZmqSocketAddr;
 use lnpbp::Chain;
+use microservices::FileFormat;
 
-#[cfg(feature = "shell")]
-use super::Opts;
-use crate::server::opts::{MYCITADEL_CACHE_FORMAT, MYCITADEL_STORAGE_FORMAT};
 use crate::{cache, storage};
+
+const STORAGE_FORMAT: FileFormat = FileFormat::Yaml;
+const CACHE_FORMAT: FileFormat = FileFormat::Yaml;
 
 /// Final configuration resulting from data contained in config file environment
 /// variables and command-line options. For security reasons node key is kept
@@ -54,35 +55,14 @@ impl Config {
     pub fn storage_conf(&self) -> storage::FileConfig {
         storage::FileConfig {
             location: self.data_dir.to_string_lossy().to_string(),
-            format: MYCITADEL_STORAGE_FORMAT,
+            format: STORAGE_FORMAT,
         }
     }
 
     pub fn cache_conf(&self) -> cache::FileConfig {
         cache::FileConfig {
             location: self.data_dir.to_string_lossy().to_string(),
-            format: MYCITADEL_CACHE_FORMAT,
-        }
-    }
-}
-
-impl Default for Config {
-    fn default() -> Self {
-        Opts::default().into()
-    }
-}
-
-#[cfg(feature = "shell")]
-impl From<Opts> for Config {
-    fn from(opts: Opts) -> Self {
-        Config {
-            chain: opts.chain,
-            data_dir: opts.data_dir,
-            rpc_endpoint: opts.shared.rpc_endpoint,
-            rgb20_endpoint: opts.rgb20_endpoint,
-            verbose: opts.shared.verbose,
-            electrum_server: opts.electrum_server,
-            rgb_embedded: opts.rgb_embedded,
+            format: CACHE_FORMAT,
         }
     }
 }

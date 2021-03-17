@@ -1,4 +1,4 @@
-// MyCitadel: node, wallet library & command-line tool
+// Citadel: Bitcoin, LN & RGB wallet runtime
 // Written in 2021 by
 //     Dr. Maxim Orlovsky <orlovsky@mycitadel.io>
 //
@@ -31,7 +31,7 @@ extern crate amplify;
 extern crate amplify_derive;
 #[macro_use]
 extern crate lnpbp;
-#[cfg_attr(feature = "_rpc", macro_use)]
+#[macro_use]
 extern crate internet2;
 
 #[macro_use]
@@ -40,33 +40,24 @@ extern crate log;
 #[macro_use]
 extern crate serde_with;
 
-#[cfg(feature = "cli")]
-pub mod cli;
 mod error;
 pub mod model;
-#[cfg(feature = "shell")]
-pub mod opts;
-#[cfg(feature = "_rpc")]
+#[cfg(any(feature = "client", feature = "runtime"))]
 pub mod rpc;
 
 #[cfg(feature = "client")]
 pub mod client;
-#[cfg(all(feature = "cli", feature = "node"))]
-mod embedded;
-#[cfg(feature = "node")]
-pub mod server;
+#[cfg(feature = "runtime")]
+pub mod runtime;
 
-#[cfg(feature = "node")]
 pub mod cache;
-#[cfg(feature = "node")]
-pub mod chainapi;
-#[cfg(feature = "node")]
-pub mod chainwatch;
-#[cfg(feature = "node")]
 pub mod storage;
+
+#[cfg(feature = "runtime")]
+pub mod chainapi;
+#[cfg(feature = "runtime")]
+pub mod chainwatch;
 
 #[cfg(feature = "client")]
 pub use client::Client;
-#[cfg(all(feature = "cli", feature = "node"))]
-pub use embedded::{run_embedded, Opts as EmbeddedOpts};
 pub use error::Error;

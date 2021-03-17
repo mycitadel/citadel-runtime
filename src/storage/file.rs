@@ -1,4 +1,4 @@
-// MyCitadel: node, wallet library & command-line tool
+// Citadel: Bitcoin, LN & RGB wallet runtime
 // Written in 2021 by
 //     Dr. Maxim Orlovsky <orlovsky@mycitadel.io>
 //
@@ -27,7 +27,8 @@ use crate::model::{
     Citadel, Contract, ContractId, Operation, Policy, TweakedOutput,
 };
 use crate::rpc::message::{IdentityInfo, SignerAccountInfo};
-use crate::server::opts::MYCITADEL_STORAGE_FILE;
+
+const STORAGE_FILENAME: &'static str = "data";
 
 #[derive(Debug)]
 pub struct FileDriver {
@@ -57,7 +58,7 @@ pub struct FileConfig {
 impl FileConfig {
     pub fn filename(&self) -> PathBuf {
         let mut filename = PathBuf::from(self.location.clone());
-        filename.push(MYCITADEL_STORAGE_FILE);
+        filename.push(STORAGE_FILENAME);
         filename.set_extension(self.format.extension());
         filename
     }
@@ -135,7 +136,7 @@ impl FileDriver {
             }
             _ => unimplemented!(),
         };
-        trace!("MyCitadel data stored");
+        trace!("Citadel data stored");
         Ok(())
     }
 }

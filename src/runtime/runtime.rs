@@ -1,4 +1,4 @@
-// MyCitadel: node, wallet library & command-line tool
+// Citadel: Bitcoin, LN & RGB wallet runtime
 // Written in 2021 by
 //     Dr. Maxim Orlovsky <orlovsky@mycitadel.io>
 //
@@ -54,7 +54,7 @@ use crate::Error;
 pub fn run(config: Config) -> Result<(), Error> {
     let runtime = Runtime::init(config)?;
 
-    runtime.run_or_panic("mycitadeld");
+    runtime.run_or_panic("citadeld");
 
     Ok(())
 }
@@ -136,7 +136,7 @@ impl Runtime {
             .map_err(|_| Error::EmbeddedNodeInitError)?;
         debug!("RGB node runtime successfully connected");
 
-        info!("MyCitadel runtime started successfully");
+        info!("Citadel runtime started successfully");
 
         Ok(Self {
             config,

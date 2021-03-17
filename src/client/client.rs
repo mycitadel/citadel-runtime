@@ -1,4 +1,4 @@
-// MyCitadel: node, wallet library & command-line tool
+// Citadel: Bitcoin, LN & RGB wallet runtime
 // Written in 2021 by
 //     Dr. Maxim Orlovsky <orlovsky@mycitadel.io>
 //
@@ -15,6 +15,7 @@ use colored::Colorize;
 use std::convert::TryFrom;
 use std::str::FromStr;
 
+use bitcoin::Txid;
 use internet2::zmqsocket::{self, ZmqType};
 use internet2::{
     session, CreateUnmarshaller, PlainTranscoder, Session, TypedEnum,
@@ -28,13 +29,12 @@ use rgb::{AtomicValue, Consignment, Genesis};
 use wallet::bip32::{PubkeyChain, UnhardenedIndex};
 use wallet::descriptor::{self, ContentType};
 use wallet::script::PubkeyScript;
+use wallet::Psbt;
 
 use super::Config;
 use crate::model::ContractId;
 use crate::rpc::{message, Reply, Request};
 use crate::Error;
-use bitcoin::Txid;
-use wallet::Psbt;
 
 #[derive(Copy, Clone, Ord, PartialOrd, Eq, PartialEq, Hash, Debug)]
 #[repr(u8)]
@@ -53,7 +53,7 @@ pub struct Client {
 impl Client {
     pub fn with(config: Config) -> Result<Self, Error> {
         debug!("Initializing runtime");
-        trace!("Connecting to mycitadel daemon at {}", config.rpc_endpoint);
+        trace!("Connecting to citadel daemon at {}", config.rpc_endpoint);
         let session_rpc = session::Raw::with_zmq_unencrypted(
             ZmqType::Req,
             &config.rpc_endpoint,
