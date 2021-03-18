@@ -31,9 +31,7 @@ use crate::model::{
     ContractId, Operation, PaymentDirecton, Policy, PsbtWrapper,
     SpendingPolicy, TweakedOutput, Utxo,
 };
-use crate::rpc::message::{
-    ConsignmentPair, PreparedTransfer, RgbReceiver, TransferInfo,
-};
+use crate::rpc::message::{PreparedTransfer, RgbReceiver, TransferInfo};
 use crate::runtime::Runtime;
 use crate::storage::Driver as StorageDriver;
 use crate::Error;
@@ -440,14 +438,9 @@ impl Runtime {
             self.storage.register_operation(pay_from, operation)?;
 
             trace!("Witness PSBT: {:#?}", psbt);
-            let mut concealed = consignment.clone();
-            concealed.finalize(&bset![rgb_endpoint], asset_id);
             PreparedTransfer {
                 psbt: witness,
-                consignments: Some(ConsignmentPair {
-                    revealed: consignment,
-                    concealed,
-                }),
+                consignment: Some(consignment),
             }
         } else {
             // Creation history record
@@ -489,7 +482,7 @@ impl Runtime {
             //       we must do an "internal transfer"
             PreparedTransfer {
                 psbt,
-                consignments: None,
+                consignment: None,
             }
         };
 

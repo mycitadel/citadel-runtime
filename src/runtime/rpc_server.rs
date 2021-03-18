@@ -182,7 +182,7 @@ impl Runtime {
             },
 
             Request::ComposeTransfer(message::ComposeTransferRequest { pay_from, asset_value, bitcoin_fee, transfer_info, invoice }) => {
-                let payment_data = self.transfer(pay_from, asset_value, bitcoin_fee, transfer_info, invoice);
+                let payment_data = self.transfer(pay_from, asset_value, bitcoin_fee, transfer_info, invoice)?;
                 Ok(Reply::PreparedPayment(payment_data))
             },
 

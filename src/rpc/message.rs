@@ -258,13 +258,7 @@ pub struct ComposeTransferRequest {
 #[display("prepared_transfer(...)")]
 pub struct PreparedTransfer {
     pub psbt: Psbt,
-    pub consignments: Option<ConsignmentPair>,
-}
-
-#[derive(Clone, PartialEq, Debug, StrictEncode, StrictDecode)]
-pub struct ConsignmentPair {
-    pub revealed: Consignment,
-    pub concealed: Consignment,
+    pub consignment: Option<Consignment>,
 }
 
 #[serde_as]
