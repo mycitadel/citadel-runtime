@@ -11,12 +11,5 @@
 // along with this software.
 // If not, see <https://www.gnu.org/licenses/agpl-3.0-standalone.html>.
 
-//! Main RPC server runtime (operating as daemon or thread)
-
-mod config;
-mod processor;
-mod rpc_server;
-mod service;
-
-pub use config::Config;
-pub use service::{run, Runtime};
+mod chain_sync;
+mod transfer;
