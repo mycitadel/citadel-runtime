@@ -47,6 +47,8 @@ pub mod rpc;
 
 #[cfg(feature = "client")]
 pub mod client;
+#[cfg(all(feature = "client", feature = "runtime"))]
+pub mod embedded;
 #[cfg(feature = "runtime")]
 pub mod runtime;
 
