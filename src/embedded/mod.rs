@@ -36,7 +36,7 @@ pub fn run_embedded(mut config: runtime::Config) -> Result<Client, Error> {
     let stash_endpoint = ZmqSocketAddr::Inproc(s!("stash.rpc"));
     let stash = format!("{data_dir}/stash/", data_dir = data_dir_str);
     let cache = format!("{data_dir}/", data_dir = data_dir_str);
-    let index = format!("{data_dir}/index.dat", data_dir = data_dir_str);
+    let index = format!("{data_dir}/index/", data_dir = data_dir_str);
 
     debug!("Launching RGB node embedded runtime...");
     let stashd = rgb_node::stashd::Runtime::init(rgb_node::stashd::Config {
