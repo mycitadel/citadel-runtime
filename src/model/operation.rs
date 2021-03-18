@@ -102,6 +102,7 @@ pub struct Operation {
     pub psbt: PsbtWrapper, /* Even if we have only tx data, we wrap them in
                             * PSBT */
     #[serde_as(as = "Option<DisplayFromStr>")]
+    #[serde(default)]
     pub disclosure: Option<Disclosure>,
 
     #[serde_as(as = "Option<_>")]
