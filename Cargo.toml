@@ -21,15 +21,15 @@ strict_encoding = { version = "1.0.7", features = ["chrono", "crypto", "miniscri
 descriptor-wallet = { version = "0.4", features = ["serde"] }
 lnpbp = { version = "0.4", features = ["serde"] }
 lnpbp_invoice = { git = "https://github.com/LNP-BP/rust-lnpbp", features = ["serde", "rgb"] }
-lnp-core = { git = "https://github.com/LNP-BP/lnp-core", features = ["serde"] }
+lnp-core = { version = "0.3.1", features = ["serde"] }
 rgb-core = { version = "0.4.2", features = ["serde"] }
 rgb20 = { version = "0.4", features = ["serde"] }
 # rgb21 = { version = "0.3.0-beta.3", optional = true }
 # rgb22 = { version = "0.3.0-beta.3", optional = true }
 # rgb23 = { version = "0.3.0-beta.3", optional = true }
 rgb_node = { git = "https://github.com/rgb-org/rgb-node", default-features = false, features = ["fungibles", "serde", "server"] }
-internet2 = { git = "https://github.com/internet2-org/rust-internet2", features = ["serde", "url", "zmq"] }
-microservices = { git = "https://github.com/internet2-org/rust-internet2", default-features = false, features = ["serde", "node"] }
+internet2 = { version = "0.3.10", features = ["serde", "url", "zmq"] }
+microservices = { version = "0.3.10", default-features = false, features = ["serde", "node"] }
 # Bitcoin
 bitcoin = { version = "0.26", features = ["use-serde"] }
 miniscript = { version = "5", features = ["use-serde"] }

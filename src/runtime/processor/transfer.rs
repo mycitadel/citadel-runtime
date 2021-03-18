@@ -354,7 +354,7 @@ impl Runtime {
                 selected_utxos.iter().map(Utxo::outpoint).collect(),
                 bmap! { rgb_endpoint => asset_value },
                 rgb_change.clone(),
-                psbt.clone(),
+                psbt,
             )?;
             let txid = witness.global.unsigned_tx.txid();
             for (vout, out) in witness.outputs.iter().enumerate() {
@@ -384,7 +384,7 @@ impl Runtime {
                 {
                     let tweaked_output = TweakedOutput {
                         outpoint: OutPoint::new(txid, vout as u32),
-                        script: psbt.global.unsigned_tx.output[vout]
+                        script: witness.global.unsigned_tx.output[vout]
                             .script_pubkey
                             .clone(),
                         tweak,
@@ -404,7 +404,7 @@ impl Runtime {
 
             // Creation history record
             let operation = Operation {
-                txid: psbt.global.unsigned_tx.txid(),
+                txid: witness.global.unsigned_tx.txid(),
                 direction: PaymentDirecton::Outcoming {
                     published: false,
                     asset_change: rgb_change.values().sum(),
@@ -427,7 +427,7 @@ impl Runtime {
                 bitcoin_value,
                 asset_value,
                 tx_fee: bitcoin_fee,
-                psbt: PsbtWrapper(psbt.clone()),
+                psbt: PsbtWrapper(witness.clone()),
                 disclosure: Some(disclosure),
                 notes: None,
             };
@@ -437,7 +437,7 @@ impl Runtime {
             );
             self.storage.register_operation(pay_from, operation)?;
 
-            trace!("Witness PSBT: {:#?}", psbt);
+            trace!("Witness PSBT: {:#?}", witness);
             PreparedTransfer {
                 psbt: witness,
                 consignment: Some(consignment),
