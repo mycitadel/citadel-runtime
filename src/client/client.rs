@@ -11,7 +11,6 @@
 // along with this software.
 // If not, see <https://www.gnu.org/licenses/agpl-3.0-standalone.html>.
 
-use colored::Colorize;
 use std::convert::TryFrom;
 use std::str::FromStr;
 
@@ -251,10 +250,7 @@ impl Client {
         trace!("Parsed invoice: {:#?}", invoice);
 
         let transfer_info = if let Some(asset_id) = invoice.rgb_asset() {
-            trace!(
-                "Performing transfer in {} assets",
-                asset_id.to_string().as_str().yellow()
-            );
+            trace!("Performing transfer in {} assets", asset_id);
             message::TransferInfo::Rgb {
                 contract_id: asset_id,
                 receiver: match invoice.beneficiary() {
@@ -305,13 +301,11 @@ impl Client {
 
             debug!(
                 "Paying to descriptor {} using {} chain",
-                descriptor.to_string().as_str().yellow(),
+                descriptor,
                 chain
                     .as_ref()
                     .map(Chain::to_string)
                     .unwrap_or(s!("default"))
-                    .as_str()
-                    .yellow()
             );
 
             match invoice.classify_asset(chain) {
