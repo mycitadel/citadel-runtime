@@ -1719,8 +1719,9 @@ dependencies = [
 
 [[package]]
 name = "rgb_node"
-version = "0.4.0-rc"
-source = "git+https://github.com/rgb-org/rgb-node#2dbce8918ebab70781c88001f34b1edf16531648"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "615e0bb88f1a94c3a2cc927ae882275bed80997430eec9ffc904060945551abd"
 dependencies = [
  "amplify",
  "amplify_derive",

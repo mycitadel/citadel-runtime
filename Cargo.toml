@@ -27,7 +27,7 @@ rgb20 = { version = "0.4", features = ["serde"] }
 # rgb21 = { version = "0.3.0-beta.3", optional = true }
 # rgb22 = { version = "0.3.0-beta.3", optional = true }
 # rgb23 = { version = "0.3.0-beta.3", optional = true }
-rgb_node = { git = "https://github.com/rgb-org/rgb-node", default-features = false, features = ["fungibles", "serde", "server"] }
+rgb_node = { version = "0.4", default-features = false, features = ["fungibles", "serde", "server"] }
 internet2 = { version = "0.3.10", features = ["serde", "url", "zmq"] }
 microservices = { version = "0.3.10", default-features = false, features = ["serde", "node"] }
 # Bitcoin

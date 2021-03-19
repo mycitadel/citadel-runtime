@@ -39,9 +39,6 @@ pub struct Runtime {
     pub(super) session_rpc:
         session::Raw<PlainTranscoder, zmqsocket::Connection>,
 
-    /// Electrum server connection
-    pub(super) electrum: ElectrumClient,
-
     /// Wallet data storage
     pub(super) storage: storage::FileDriver,
 
@@ -114,7 +111,6 @@ impl Runtime {
         Ok(Self {
             config,
             session_rpc,
-            electrum,
             storage,
             cache,
             rgb20_client,

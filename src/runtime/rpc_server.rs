@@ -11,7 +11,7 @@
 // along with this software.
 // If not, see <https://www.gnu.org/licenses/agpl-3.0-standalone.html>.
 
-use electrum_client::ElectrumApi;
+use electrum_client::{Client as ElectrumClient, ElectrumApi};
 use internet2::{TypedEnum, Unmarshall};
 use lnpbp::seals::OutpointReveal;
 use microservices::rpc::Failure;
@@ -193,9 +193,18 @@ impl Runtime {
                     Ok(tx) => {
                         // TODO: Update saved PSBT
                         trace!("Finalized PSBT: {:#?}", psbt);
+
+                        debug!(
+                            "Connecting electrum server at {} ...",
+                            self.config.electrum_server
+                        );
+                        debug!("Electrum server successfully connected");
+                        let electrum =
+                            ElectrumClient::new(&self.config.electrum_server.to_string()).map_err(Error::from)?;
+
                         debug!("Publishing transaction to bitcoin network via Electrum server");
                         trace!("{:#?}", tx);
-                        self.electrum
+                        electrum
                             .transaction_broadcast(&tx)
                             .map(|_| Reply::Success)
                             .map_err(|err| {

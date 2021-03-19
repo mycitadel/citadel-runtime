@@ -15,7 +15,7 @@ use std::collections::{BTreeMap, BTreeSet};
 use std::convert::TryInto;
 
 use bitcoin::{OutPoint, Script, Txid};
-use electrum_client::ElectrumApi;
+use electrum_client::{Client as ElectrumClient, ElectrumApi};
 use wallet::bip32::{ChildIndex, UnhardenedIndex};
 use wallet::AddressCompat;
 
@@ -32,6 +32,14 @@ impl Runtime {
         lookup_depth: u8,
     ) -> Result<BTreeMap<rgb::ContractId, Vec<Utxo>>, Error> {
         debug!("Synchronizing contract data with electrum server");
+
+        debug!(
+            "Connecting electrum server at {} ...",
+            self.config.electrum_server
+        );
+        debug!("Electrum server successfully connected");
+        let electrum =
+            ElectrumClient::new(&self.config.electrum_server.to_string())?;
 
         let lookup_depth = UnhardenedIndex::from(lookup_depth);
 
@@ -70,8 +78,7 @@ impl Runtime {
             let mut count = 0usize;
             trace!("{:#?}", scripts);
 
-            let txid_map = self
-                .electrum
+            let txid_map = electrum
                 .batch_script_list_unspent(
                     &scripts
                         .iter()
@@ -116,10 +123,7 @@ impl Runtime {
                 txid_map.len()
             );
             for ((height, txid), outs) in txid_map {
-                match self
-                    .electrum
-                    .transaction_get_merkle(&txid, height as usize)
-                {
+                match electrum.transaction_get_merkle(&txid, height as usize) {
                     Ok(res) => {
                         mine_info.insert((height, res.pos as u16), txid);
                         for (vout, value, derivation_index, script, tweak) in
@@ -184,7 +188,7 @@ impl Runtime {
             debug!("Generating next spending script batch");
         }
 
-        while let Ok(Some(info)) = self.electrum.block_headers_pop() {
+        while let Ok(Some(info)) = electrum.block_headers_pop() {
             debug!("Updating known blockchain height: {}", info.height);
             self.known_height = info.height as u32;
         }

@@ -16,7 +16,7 @@ use invoice::Invoice;
 use bitcoin::secp256k1::rand::RngCore;
 use bitcoin::{OutPoint, PublicKey, Transaction, TxIn, TxOut};
 use chrono::{NaiveDateTime, Utc};
-use electrum_client::ElectrumApi;
+use electrum_client::{Client as ElectrumClient, ElectrumApi};
 use lnpbp::seals::OutpointReveal;
 use microservices::rpc::Failure;
 use miniscript::{Descriptor, DescriptorTrait};
@@ -266,6 +266,14 @@ impl Runtime {
         }
         trace!("RGB change: {:?}", rgb_change);
 
+        debug!(
+            "Connecting electrum server at {} ...",
+            self.config.electrum_server
+        );
+        debug!("Electrum server successfully connected");
+        let electrum =
+            ElectrumClient::new(&self.config.electrum_server.to_string())?;
+
         // Constructing bitcoin payment PSBT (for bitcoin payments) or
         // RGB witness PSBT prototype for the commitment (for RGB
         // payments)
@@ -275,10 +283,8 @@ impl Runtime {
             .map(|(txin, utxo)| {
                 let mut input = psbt::Input::default();
                 // TODO: cache transactions
-                input.non_witness_utxo = self
-                    .electrum
-                    .transaction_get(&txin.previous_output.txid)
-                    .ok();
+                input.non_witness_utxo =
+                    electrum.transaction_get(&txin.previous_output.txid).ok();
                 input.bip32_derivation =
                     policy.bip32_derivations(utxo.derivation_index);
                 let script = policy
