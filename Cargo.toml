@@ -22,12 +22,12 @@ descriptor-wallet = { version = "0.4", features = ["serde"] }
 lnpbp = { version = "0.4", features = ["serde"] }
 lnpbp-invoice = { version = "0.1", features = ["serde", "rgb"] }
 lnp-core = { version = "0.3.1", features = ["serde"] }
-rgb-core = { version = "0.4.2", features = ["serde"] }
+rgb-core = { version = "0.4.3", features = ["serde"] }
 rgb20 = { version = "0.4", features = ["serde"] }
 # rgb21 = { version = "0.3.0-beta.3", optional = true }
 # rgb22 = { version = "0.3.0-beta.3", optional = true }
 # rgb23 = { version = "0.3.0-beta.3", optional = true }
-rgb_node = { version = "0.4", optional = true, default-features = false, features = ["fungibles", "serde", "server", "electrum-client"] }
+rgb_node = { version = ">=0.4.1", optional = true, default-features = false, features = ["fungibles", "serde", "server", "electrum-client"] }
 internet2 = { version = "0.3.10", features = ["serde", "url", "zmq"] }
 microservices = { version = "0.3.10", default-features = false, features = ["serde", "node"] }
 # Bitcoin
