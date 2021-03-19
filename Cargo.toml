@@ -20,14 +20,14 @@ slip132 = { version = "0.3.2", features = ["serde"] }
 strict_encoding = { version = "1.0.7", features = ["chrono", "crypto", "miniscript", "derive"] }
 descriptor-wallet = { version = "0.4", features = ["serde"] }
 lnpbp = { version = "0.4", features = ["serde"] }
-lnpbp-invoice = { version = "0.1.0", features = ["serde", "rgb"] }
+lnpbp-invoice = { version = "0.1", features = ["serde", "rgb"] }
 lnp-core = { version = "0.3.1", features = ["serde"] }
 rgb-core = { version = "0.4.2", features = ["serde"] }
 rgb20 = { version = "0.4", features = ["serde"] }
 # rgb21 = { version = "0.3.0-beta.3", optional = true }
 # rgb22 = { version = "0.3.0-beta.3", optional = true }
 # rgb23 = { version = "0.3.0-beta.3", optional = true }
-rgb_node = { version = "0.4", default-features = false, features = ["fungibles", "serde", "server"] }
+rgb_node = { version = "0.4", optional = true, default-features = false, features = ["fungibles", "serde", "server", "electrum-client"] }
 internet2 = { version = "0.3.10", features = ["serde", "url", "zmq"] }
 microservices = { version = "0.3.10", default-features = false, features = ["serde", "node"] }
 # Bitcoin
@@ -52,12 +52,12 @@ shellexpand = "2.1"
 
 [features]
 default = ["client", "runtime"]
-all = ["tor", "sql", "nosql", "vendored_openssl"]
+all = ["tor", "assets_sql", "stash_nosql", "vendored_openssl", "client", "runtime"]
 
-runtime = ["internet2/keygen", "bitcoin/rand", "electrum-client"]
+runtime = ["internet2/keygen", "bitcoin/rand", "electrum-client", "rgb_node"]
 client = ["microservices/client"]
 
 tor = ["microservices/tor", "internet2/tor", "rgb_node/tor"]
-sql = ["rgb_node/diesel"]
-nosql = ["rgb_node/hammersbald"]
+assets_sql = ["rgb_node/diesel"]
+stash_nosql = ["rgb_node/hammersbald"]
 vendored_openssl = ["microservices/vendored_openssl", "internet2/vendored_openssl", "rgb_node/vendored_openssl"]
