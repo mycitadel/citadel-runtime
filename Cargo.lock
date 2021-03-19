@@ -291,8 +291,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "citadel"
-version = "0.1.0-rc"
+name = "citadel-runtime"
+version = "0.1.0"
 dependencies = [
  "amplify",
  "amplify_derive",
