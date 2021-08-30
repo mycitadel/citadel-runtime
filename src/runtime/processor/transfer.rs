@@ -98,9 +98,9 @@ impl Runtime {
                 }
                 asset_input_amount += utxo.value;
                 trace!(
-                "Adding {} to the inputs with {} sats; total input value is {}",
-                utxo.outpoint(), utxo.value, asset_input_amount
-            );
+                    "Adding {} to the inputs with {} sats; total input value is {}",
+                    utxo.outpoint(), utxo.value, asset_input_amount
+                );
                 Some(utxo)
             })
             .collect();
@@ -113,6 +113,12 @@ impl Runtime {
                 witness: vec![],
             })
             .collect();
+        if !transfer_info.is_rgb()
+            && asset_input_amount < asset_value + bitcoin_fee
+        {
+            // TODO: Add more pure bitcoin inputs if there are not enough funds
+            //       to pay bitcoin transaction fee
+        }
         if asset_input_amount < asset_value + asset_fee {
             Err(Error::ServerFailure(Failure {
                 code: 0,
