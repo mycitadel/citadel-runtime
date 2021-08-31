@@ -15,8 +15,8 @@ use std::io::{Read, Seek, Write};
 use std::path::PathBuf;
 use std::{fs, io};
 
-use lnpbp::strict_encoding::{StrictDecode, StrictEncode};
 use microservices::FileFormat;
+use strict_encoding::{StrictDecode, StrictEncode};
 
 use super::{Cache, ContractCache};
 use crate::cache::Error;

@@ -17,17 +17,15 @@ use std::collections::{BTreeMap, BTreeSet};
 use std::io;
 use std::time::{SystemTime, UNIX_EPOCH};
 
+use amplify::Slice32;
 use bitcoin::{OutPoint, PublicKey, Script};
+use bp::seals::{OutpointHash, OutpointReveal};
+use commit_verify::{CommitConceal, CommitEncode, ConsensusCommit};
 use invoice::Invoice;
-use lnpbp::client_side_validation::{
-    CommitConceal, CommitEncode, ConsensusCommit,
-};
-use lnpbp::seals::{OutpointHash, OutpointReveal};
-use lnpbp::Chain;
+use lnpbp::chain::Chain;
 use miniscript::ForEachKey;
 use strict_encoding::StrictEncode;
-use wallet::bip32::{PubkeyChain, UnhardenedIndex};
-use wallet::Slice32;
+use wallet::hd::{PubkeyChain, UnhardenedIndex};
 
 use super::{ContractId, Operation, Policy, PolicyType, State};
 use crate::model::AddressDerivation;

@@ -28,11 +28,11 @@
 #[macro_use]
 extern crate amplify;
 #[macro_use]
-extern crate amplify_derive;
-#[macro_use]
-extern crate lnpbp;
+extern crate strict_encoding;
 #[macro_use]
 extern crate internet2;
+#[macro_use]
+extern crate lazy_static;
 
 #[macro_use]
 extern crate log;
@@ -65,3 +65,9 @@ pub mod chainwatch;
 #[cfg(feature = "client")]
 pub use client::Client;
 pub use error::Error;
+
+use bitcoin::secp256k1::{All, Secp256k1};
+
+lazy_static! {
+    pub static ref SECP256K1: Secp256k1<All> = Secp256k1::new();
+}

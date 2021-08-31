@@ -1,7 +1,7 @@
 [package]
 name = "citadel-runtime"
 description = "Bitcoin, LN & RGB wallet runtime"
-version = "0.1.0"
+version = "0.5.0-beta.1"
 license = "MIT"
 authors = ["Dr. Maxim Orlovsky <orlovsky@mycitadel.io>"]
 keywords = ["bitcoin", "rgb", "wallet", "lightning"]
@@ -14,36 +14,37 @@ name = "citadel"
 
 [dependencies]
 # LNP/BP crates
-amplify = { version = "3", features = ["serde"] }
-amplify_derive = "2.4.4"
-slip132 = { version = "0.3.2", features = ["serde"] }
-strict_encoding = { version = "1.0.7", features = ["chrono", "crypto", "miniscript", "derive"] }
-descriptor-wallet = { version = "0.4", features = ["serde"] }
-lnpbp = { version = "0.4", features = ["serde"] }
-lnpbp-invoice = { version = "0.1", features = ["serde", "rgb"] }
-lnp-core = { version = "0.3.1", features = ["serde"] }
-rgb-core = { version = "0.4.3", features = ["serde"] }
-rgb20 = { version = "0.4", features = ["serde"] }
+amplify = { version = "3.9.1", features = ["serde"] }
+slip132 = { version = "0.5.0-beta.1", features = ["serde", "strict_encoding"] }
+commit_verify = { version = "0.5.11", features = ["serde"] }
+strict_encoding = { version = "1.7.2", features = ["chrono", "crypto", "miniscript", "derive"] }
+descriptor-wallet = { version = "0.5.0-alpha.5", features = ["serde"] }
+lnpbp = { version = "0.5.0-beta.3", features = ["serde"] }
+lnpbp-invoice = { version = "0.2.0-beta.1", features = ["serde", "rgb"] }
+bp-core = { version = "0.5.0-beta.5", features = ["serde"] }
+lnp-core = { version = "0.4.0-beta.1", features = ["serde"] }
+rgb-core = { version = "0.5.0-alpha.1", features = ["serde"] }
+rgb20 = { version = "0.5.0-alpha.3", features = ["serde"] }
 # rgb21 = { version = "0.3.0-beta.3", optional = true }
 # rgb22 = { version = "0.3.0-beta.3", optional = true }
 # rgb23 = { version = "0.3.0-beta.3", optional = true }
-rgb_node = { version = ">=0.4.1", optional = true, default-features = false, features = ["fungibles", "serde", "server", "electrum-client"] }
-internet2 = { version = "0.3.10", features = ["serde", "url", "zmq"] }
-microservices = { version = "0.3.10", default-features = false, features = ["serde", "node"] }
+rgb_node = { version = "0.5.0-alpha.1", optional = true, default-features = false, features = ["fungibles", "serde", "server", "electrum-client"], path = "../../rgb/rgb-node" }
+internet2 = { version = "0.5.0-alpha.2", features = ["serde", "url", "zmq"] }
+microservices = { version = "0.5.0-beta.1", default-features = false, features = ["serde", "node"] }
 # Bitcoin
-bitcoin = { version = "0.26", features = ["use-serde"] }
-miniscript = { version = "5", features = ["use-serde"] }
-electrum-client = { version = "0.6", optional = true }
+bitcoin = { version = "0.27", features = ["use-serde"] }
+miniscript = { version = "6.0.1", features = ["use-serde"] }
+electrum-client = { version = "0.8", optional = true }
 # Rust language
 lazy_static = "1.4"
 chrono = { version = "0.4", features = ["serde"] }
 # Serialization & parsing
 serde = { version = "1", features = ["derive"] }
-serde_with = { version = "1.5", features = ["hex", "chrono"] }
+serde_with = { version = "1.8", features = ["hex", "chrono"] }
 serde_json = "1"
 serde_yaml = "0.8"
 toml = "0.5"
-bech32 = "0.7"
+bech32 = "0.8.1"
 base64 = "0.12"
 # Congig & logging
 log = { version = "0.4", features = ["max_level_trace", "release_max_level_debug"] }
@@ -52,7 +53,7 @@ shellexpand = "2.1"
 
 [features]
 default = ["client", "runtime"]
-all = ["tor", "assets_sql", "stash_nosql", "vendored_openssl", "client", "runtime"]
+all = ["tor", "assets_sql", "stash_nosql", "client", "runtime"]
 
 runtime = ["internet2/keygen", "bitcoin/rand", "electrum-client", "rgb_node"]
 client = ["microservices/client"]
@@ -60,4 +61,3 @@ client = ["microservices/client"]
 tor = ["microservices/tor", "internet2/tor", "rgb_node/tor"]
 assets_sql = ["rgb_node/diesel"]
 stash_nosql = ["rgb_node/hammersbald"]
-vendored_openssl = ["microservices/vendored_openssl", "internet2/vendored_openssl", "rgb_node/vendored_openssl"]

@@ -15,11 +15,12 @@ use serde_with::DisplayFromStr;
 use std::collections::BTreeMap;
 use std::str::FromStr;
 
+use amplify::Slice32;
 use bitcoin::{OutPoint, PublicKey, Txid};
 use rgb::AtomicValue;
-use wallet::bip32::UnhardenedIndex;
+use wallet::address::AddressCompat;
 use wallet::blockchain::ParseError;
-use wallet::{AddressCompat, Slice32};
+use wallet::hd::UnhardenedIndex;
 
 pub type Allocations =
     BTreeMap<OutPoint, BTreeMap<rgb::ContractId, AtomicValue>>;

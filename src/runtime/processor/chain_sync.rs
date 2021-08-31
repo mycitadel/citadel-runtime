@@ -16,8 +16,8 @@ use std::convert::TryInto;
 
 use bitcoin::{OutPoint, Script, Txid};
 use electrum_client::{Client as ElectrumClient, ElectrumApi};
-use wallet::bip32::{ChildIndex, UnhardenedIndex};
-use wallet::AddressCompat;
+use wallet::address::AddressCompat;
+use wallet::hd::{ChildIndex, UnhardenedIndex};
 
 use crate::cache::Driver as CacheDriver;
 use crate::model::{ContractId, TweakedOutput, Utxo};

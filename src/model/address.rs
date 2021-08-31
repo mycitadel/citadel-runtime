@@ -12,7 +12,7 @@
 // If not, see <https://www.gnu.org/licenses/agpl-3.0-standalone.html>.
 
 use bitcoin::Address;
-use wallet::bip32::UnhardenedIndex;
+use wallet::hd::UnhardenedIndex;
 
 #[derive(
     Serialize,

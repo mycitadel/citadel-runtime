@@ -14,8 +14,8 @@
 //! Module responsible for requesting blockchain data
 
 use bitcoin::{Address, Transaction, Txid};
-use wallet::bip32::{PubkeyChain, UnhardenedIndex};
-use wallet::descriptor::ContractDescriptor;
+use wallet::descriptors::ContractDescriptor;
+use wallet::hd::{PubkeyChain, UnhardenedIndex};
 
 pub trait Driver {
     fn transactions_by_txid(

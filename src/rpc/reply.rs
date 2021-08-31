@@ -15,11 +15,11 @@ use serde_with::{As, DisplayFromStr};
 use std::collections::BTreeMap;
 
 use bitcoin::Address;
+use bp::seals::OutpointReveal;
 use internet2::presentation;
 use invoice::Invoice;
-use lnpbp::seals::OutpointReveal;
 use microservices::{rpc, rpc_connection};
-use wallet::bip32::UnhardenedIndex;
+use wallet::hd::UnhardenedIndex;
 
 use crate::model::{AddressDerivation, ContractMeta, Operation, Utxo};
 use crate::rpc::message::{IdentityInfo, PreparedTransfer};

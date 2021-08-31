@@ -14,7 +14,7 @@
 use std::collections::{BTreeMap, BTreeSet, HashSet};
 
 use bitcoin::{Address, OutPoint, Txid};
-use wallet::bip32::UnhardenedIndex;
+use wallet::hd::UnhardenedIndex;
 
 use super::Error;
 use crate::model::{Allocations, ContractId, Utxo};

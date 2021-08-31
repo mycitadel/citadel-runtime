@@ -14,7 +14,7 @@
 use std::collections::{BTreeMap, BTreeSet, HashSet};
 
 use bitcoin::{Address, OutPoint, Txid};
-use wallet::bip32::{ChildIndex, UnhardenedIndex};
+use wallet::hd::{ChildIndex, UnhardenedIndex};
 
 use super::FileDriver;
 use crate::cache::{Driver, Error};

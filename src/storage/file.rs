@@ -17,10 +17,10 @@ use std::io::{Read, Seek, Write};
 use std::path::PathBuf;
 use std::{fs, io};
 
+use bp::seals::OutpointReveal;
 use invoice::Invoice;
-use lnpbp::seals::OutpointReveal;
-use lnpbp::strict_encoding::{StrictDecode, StrictEncode};
 use microservices::FileFormat;
+use strict_encoding::{StrictDecode, StrictEncode};
 
 use super::{Driver, Error};
 use crate::model::{

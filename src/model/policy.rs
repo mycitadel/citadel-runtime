@@ -19,20 +19,21 @@ use std::ops::Range;
 
 use bitcoin::util::bip32::KeySource;
 use bitcoin::Script;
+use commit_verify::{CommitEncode, ConsensusCommit};
 use internet2::RemoteNodeAddr;
 use lnp::ChannelId;
-use lnpbp::client_side_validation::{CommitEncode, ConsensusCommit};
-use lnpbp::Chain;
+use lnpbp::chain::Chain;
+use miniscript::descriptor::DescriptorType;
 use miniscript::{
     descriptor, Descriptor, DescriptorTrait, ForEach, ForEachKey, TranslatePk2,
 };
 use strict_encoding::{self, StrictDecode, StrictEncode};
-use wallet::bip32::{ChildIndex, PubkeyChain, TerminalStep, UnhardenedIndex};
-use wallet::descriptor::ContractDescriptor;
+use wallet::descriptors::ContractDescriptor;
+use wallet::hd::{ChildIndex, PubkeyChain, TerminalStep, UnhardenedIndex};
 
 use super::ContractId;
 use crate::model::AddressDerivation;
-use miniscript::descriptor::DescriptorType;
+use crate::SECP256K1;
 
 /// Defines a type of a wallet contract basing on the banking use case,
 /// abstracting the underlying technology(ies) into specific contract details
@@ -187,7 +188,7 @@ impl Policy {
                 path.remove(path.len() - 1);
             }
             path.push(TerminalStep::Index(index.into()));
-            chain.derive_pubkey(Some(index))
+            chain.derive_pubkey(&*SECP256K1, Some(index))
         })
     }
 
@@ -208,7 +209,9 @@ impl Policy {
     ) -> BTreeMap<bitcoin::PublicKey, KeySource> {
         self.pubkey_chains()
             .into_iter()
-            .map(|pubkey_chain| pubkey_chain.bip32_derivation(Some(index)))
+            .map(|pubkey_chain| {
+                pubkey_chain.bip32_derivation(&*SECP256K1, Some(index))
+            })
             .collect()
     }
 
@@ -219,7 +222,7 @@ impl Policy {
         self.pubkey_chains()
             .first()
             .expect("Descriptor must contain at least one signing key")
-            .derive_pubkey(Some(index))
+            .derive_pubkey(&*SECP256K1, Some(index))
     }
 
     pub fn derive_scripts(

@@ -13,18 +13,19 @@
 
 use invoice::Invoice;
 
+use amplify::Slice32;
 use bitcoin::secp256k1::rand::RngCore;
 use bitcoin::{OutPoint, PublicKey, Transaction, TxIn, TxOut};
+use bp::seals::OutpointReveal;
 use chrono::{NaiveDateTime, Utc};
 use electrum_client::{Client as ElectrumClient, ElectrumApi};
-use lnpbp::seals::OutpointReveal;
 use microservices::rpc::Failure;
 use miniscript::{Descriptor, DescriptorTrait};
 use rgb::{SealDefinition, SealEndpoint};
 use rgb_node::rpc::reply::Transfer;
 use std::collections::BTreeSet;
-use wallet::psbt::{self, ProprietaryKey, ProprietaryWalletInput};
-use wallet::{Psbt, PubkeyScript, Slice32};
+use wallet::psbt::{self, ProprietaryKey, ProprietaryWalletInput, Psbt};
+use wallet::scripts::PubkeyScript;
 
 use crate::cache::Driver as CacheDriver;
 use crate::model::{

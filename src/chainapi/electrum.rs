@@ -19,8 +19,8 @@ use electrum_client::Client as ElectrumClient;
 
 use super::Driver;
 use bitcoin::{Address, Transaction, Txid};
-use wallet::bip32::{PubkeyChain, UnhardenedIndex};
-use wallet::descriptor::ContractDescriptor;
+use wallet::descriptors::ContractDescriptor;
+use wallet::hd::{PubkeyChain, UnhardenedIndex};
 
 pub struct ElectrumConfig {
     pub electrum: IpAddr,

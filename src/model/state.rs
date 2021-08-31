@@ -11,8 +11,8 @@
 // along with this software.
 // If not, see <https://www.gnu.org/licenses/agpl-3.0-standalone.html>.
 
+use amplify::Slice32;
 use serde_with::DisplayFromStr;
-use wallet::Slice32;
 
 #[serde_as]
 #[derive(

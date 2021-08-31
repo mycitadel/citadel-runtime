@@ -17,12 +17,12 @@ use std::io;
 use std::ops::RangeInclusive;
 
 use bitcoin::Address;
+use bp::seals::{OutpointHash, OutpointReveal};
 use invoice::Invoice;
-use lnpbp::seals::{OutpointHash, OutpointReveal};
-use lnpbp::strict_encoding::{self, StrictDecode, StrictEncode};
 use rgb::Consignment;
-use wallet::bip32::{PubkeyChain, UnhardenedIndex};
-use wallet::{descriptor, Psbt};
+use strict_encoding::{self, StrictDecode, StrictEncode};
+use wallet::hd::{PubkeyChain, UnhardenedIndex};
+use wallet::{descriptors, psbt::Psbt};
 
 use crate::model;
 
@@ -47,7 +47,7 @@ pub struct SingleSigInfo {
     #[serde_as(as = "DisplayFromStr")]
     pub pubkey_chain: PubkeyChain,
     #[serde_as(as = "DisplayFromStr")]
-    pub category: descriptor::ContentType,
+    pub category: descriptors::ContentType,
 }
 
 #[derive(
@@ -178,7 +178,7 @@ pub enum RgbReceiver {
     BlindUtxo(OutpointHash),
     Descriptor {
         #[serde_as(as = "DisplayFromStr")]
-        descriptor: descriptor::Compact,
+        descriptor: descriptors::Compact,
         /// Amount of statoshis to give away with the descriptor-based payment
         giveaway: u64,
     },
@@ -191,7 +191,7 @@ pub enum RgbReceiver {
 )]
 #[serde(tag = "type")]
 pub enum TransferInfo {
-    Bitcoin(#[serde_as(as = "DisplayFromStr")] descriptor::Compact),
+    Bitcoin(#[serde_as(as = "DisplayFromStr")] descriptors::Compact),
 
     Rgb {
         contract_id: rgb::ContractId,
@@ -207,14 +207,14 @@ impl TransferInfo {
         }
     }
 
-    pub fn bitcoin_descriptor(&self) -> Option<descriptor::Compact> {
+    pub fn bitcoin_descriptor(&self) -> Option<descriptors::Compact> {
         match self {
             TransferInfo::Bitcoin(descr) => Some(descr.clone()),
             TransferInfo::Rgb { .. } => None,
         }
     }
 
-    pub fn rgb_descriptor(&self) -> Option<descriptor::Compact> {
+    pub fn rgb_descriptor(&self) -> Option<descriptors::Compact> {
         match self {
             TransferInfo::Bitcoin(_) => None,
             TransferInfo::Rgb {
@@ -269,7 +269,7 @@ pub struct PreparedTransfer {
 pub struct SignerAccountInfo {
     pub title: String,
     #[serde_as(as = "DisplayFromStr")]
-    pub key: descriptor::SingleSig,
+    pub key: descriptors::SingleSig,
     pub used: Vec<RangeInclusive<u32>>,
 }
 
@@ -311,7 +311,7 @@ impl StrictDecode for SignerAccountInfo {
 pub struct IdentityInfo {
     pub name: String,
     #[serde_as(as = "DisplayFromStr")]
-    pub key: descriptor::SingleSig,
+    pub key: descriptors::SingleSig,
     pub known: Vec<RangeInclusive<u32>>,
 }
 

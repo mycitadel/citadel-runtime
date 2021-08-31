@@ -15,6 +15,7 @@ use std::convert::TryFrom;
 use std::str::FromStr;
 
 use bitcoin::Txid;
+use commit_verify::CommitConceal;
 use internet2::zmqsocket::{self, ZmqType};
 use internet2::{
     session, CreateUnmarshaller, PlainTranscoder, Session, TypedEnum,
@@ -22,13 +23,12 @@ use internet2::{
 };
 use invoice::{AssetClass, Beneficiary, Invoice};
 use lnpbp::chain::{AssetId, Chain};
-use lnpbp::client_side_validation::CommitConceal;
 use microservices::rpc::Failure;
 use rgb::{AtomicValue, Consignment, Genesis};
-use wallet::bip32::{PubkeyChain, UnhardenedIndex};
-use wallet::descriptor::{self, ContentType};
-use wallet::script::PubkeyScript;
-use wallet::Psbt;
+use wallet::descriptors::{self, ContentType};
+use wallet::hd::{PubkeyChain, UnhardenedIndex};
+use wallet::psbt::Psbt;
+use wallet::scripts::PubkeyScript;
 
 use super::Config;
 use crate::model::ContractId;
@@ -276,7 +276,7 @@ impl Client {
                 Beneficiary::Address(address) => {
                     trace!("Paying to bitcoin address {}", address);
                     (
-                        descriptor::Compact::try_from(PubkeyScript::from(
+                        descriptors::Compact::try_from(PubkeyScript::from(
                             address.script_pubkey(),
                         ))
                             .expect("Address is always parsable as a descriptor"),

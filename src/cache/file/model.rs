@@ -16,7 +16,7 @@ use serde_with::DisplayFromStr;
 use std::collections::{BTreeMap, BTreeSet, HashSet};
 
 use bitcoin::{Address, BlockHash, OutPoint, Transaction, Txid};
-use wallet::bip32::UnhardenedIndex;
+use wallet::hd::UnhardenedIndex;
 
 use crate::model::{ContractId, Utxo};
 

@@ -19,8 +19,8 @@ pub use file::{FileConfig, FileDriver};
 
 // -----------------------------------------------------------------------------
 
+use bp::seals::OutpointReveal;
 use invoice::Invoice;
-use lnpbp::seals::OutpointReveal;
 
 use crate::model::{
     self, Contract, ContractId, Operation, Policy, TweakedOutput,
@@ -77,7 +77,7 @@ pub trait Driver {
     ) -> Result<IdentityInfo, Error>;
 }
 
-#[derive(Clone, Eq, PartialEq, Hash, Debug, Display, Error, From)]
+#[derive(Clone, Eq, PartialEq, Debug, Display, Error, From)]
 #[display(doc_comments)]
 #[non_exhaustive]
 pub enum Error {

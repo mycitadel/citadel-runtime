@@ -11,9 +11,9 @@
 // along with this software.
 // If not, see <https://www.gnu.org/licenses/agpl-3.0-standalone.html>.
 
+use bp::seals::OutpointReveal;
 use electrum_client::{Client as ElectrumClient, ElectrumApi};
 use internet2::{TypedEnum, Unmarshall};
-use lnpbp::seals::OutpointReveal;
 use microservices::rpc::Failure;
 use microservices::FileFormat;
 use rgb::{SealEndpoint, Validity};
@@ -21,7 +21,7 @@ use rgb20::Asset;
 use rgb_node::rpc::reply::SyncFormat;
 use rgb_node::util::ToBech32Data;
 use strict_encoding::StrictDecode;
-use wallet::descriptor::ContractDescriptor;
+use wallet::descriptors::ContractDescriptor;
 
 use super::Runtime;
 use crate::cache::Driver as CacheDriver;
@@ -29,6 +29,7 @@ use crate::model::{Contract, ContractMeta, Policy, SpendingPolicy};
 use crate::rpc::{message, Reply, Request};
 use crate::storage::Driver as StorageDriver;
 use crate::Error;
+use crate::SECP256K1;
 
 impl Runtime {
     pub(super) fn rpc_process(&mut self, raw: Vec<u8>) -> Result<Reply, Reply> {
@@ -188,8 +189,8 @@ impl Runtime {
 
             Request::FinalizeTransfer(mut psbt) => {
                 debug!("Finalizing the provided PSBT");
-                match miniscript::psbt::finalize(&mut psbt, &wallet::SECP256K1)
-                    .and_then(|_| miniscript::psbt::extract(&psbt, &wallet::SECP256K1)) {
+                match miniscript::psbt::finalize(&mut psbt, &*SECP256K1)
+                    .and_then(|_| miniscript::psbt::extract(&psbt, &*SECP256K1)) {
                     Ok(tx) => {
                         // TODO: Update saved PSBT
                         trace!("Finalized PSBT: {:#?}", psbt);

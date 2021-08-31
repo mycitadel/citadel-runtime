@@ -13,11 +13,11 @@
 
 use std::str::FromStr;
 
+use amplify::Wrapper;
 use bitcoin::hashes::{sha256, sha256t};
+use commit_verify::{tagged_hash, CommitVerify, TaggedHash};
 use lnpbp::bech32::{FromBech32IdStr, ToBech32IdString};
-use lnpbp::commit_verify::CommitVerify;
-use lnpbp::strict_encoding::{self, StrictDecode, StrictEncode};
-use lnpbp::{tagged_hash, TaggedHash};
+use strict_encoding::{self, StrictDecode, StrictEncode};
 
 pub struct ContractIdTag;
 
@@ -25,7 +25,9 @@ impl sha256t::Tag for ContractIdTag {
     #[inline]
     fn engine() -> sha256::HashEngine {
         let midstate = sha256::Midstate::from_inner(
-            **tagged_hash::Midstate::with("citadel:contract"),
+            tagged_hash::Midstate::with("citadel:contract")
+                .into_inner()
+                .into_inner(),
         );
         sha256::HashEngine::from_midstate(midstate, 64)
     }

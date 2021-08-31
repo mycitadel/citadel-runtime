@@ -12,7 +12,7 @@
 // If not, see <https://www.gnu.org/licenses/agpl-3.0-standalone.html>.
 
 use rgb::{Consignment, Genesis};
-use wallet::Psbt;
+use wallet::psbt::Psbt;
 
 use super::message::{
     AddInvoiceRequest, ComposeTransferRequest, ContractAddressTuple,

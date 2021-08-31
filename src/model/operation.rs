@@ -21,8 +21,8 @@ use bitcoin::consensus::{deserialize, serialize};
 use bitcoin::Txid;
 use invoice::Invoice;
 use rgb::Disclosure;
-use wallet::bip32::UnhardenedIndex;
-use wallet::Psbt;
+use wallet::hd::UnhardenedIndex;
+use wallet::psbt::Psbt;
 
 #[serde_as]
 #[derive(
